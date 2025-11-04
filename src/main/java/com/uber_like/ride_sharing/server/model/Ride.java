@@ -1,4 +1,4 @@
-package com.uber_like.ride_sharing.model;
+package com.uber_like.ride_sharing.server.model;
 
 import lombok.Data;
 import java.util.ArrayList;

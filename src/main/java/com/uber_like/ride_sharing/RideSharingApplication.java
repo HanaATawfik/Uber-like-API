@@ -1,5 +1,6 @@
 package com.uber_like.ride_sharing;
 
+import com.uber_like.ride_sharing.client.RideClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Main entry point for the Ride Sharing Application
  *
  * This is a Spring Boot application that can run:
- * 1. Server mode (default)
- * 2. Client mode (with --client flag)
+ * 1. Server mode (default) - Run the socket server
+ * 2. Client mode (with --client flag) - Connect to the server
  */
 @SpringBootApplication
 public class RideSharingApplication {
@@ -16,10 +17,12 @@ public class RideSharingApplication {
 	public static void main(String[] args) {
 		// Check if running in client mode
 		if (args.length > 0 && args[0].equals("--client")) {
-			// Run as client (traditional socket client)
 			runClient(args);
 		} else {
 			// Run as Spring Boot server
+			System.out.println("╔════════════════════════════════════════╗");
+			System.out.println("║   RIDE SHARING SERVER - STARTING...    ║");
+			System.out.println("╚════════════════════════════════════════╝");
 			SpringApplication.run(RideSharingApplication.class, args);
 		}
 	}
@@ -29,7 +32,9 @@ public class RideSharingApplication {
 	 * Usage: java -jar app.jar --client <server-host> <server-port>
 	 */
 	private static void runClient(String[] args) {
-		System.out.println("Starting in CLIENT mode...");
+		System.out.println("╔════════════════════════════════════════╗");
+		System.out.println("║   RIDE SHARING CLIENT - STARTING...    ║");
+		System.out.println("╚════════════════════════════════════════╝\n");
 
 		if (args.length < 3) {
 			System.out.println("Usage: java -jar app.jar --client <server-host> <server-port>");
@@ -48,7 +53,7 @@ public class RideSharingApplication {
 			return;
 		}
 
-		// Start client (you'll implement this)
-		com.uber_like.ride_sharing.client.RideClient.start(serverHost, serverPort);
+		// Start client
+		RideClient.start(serverHost, serverPort);
 	}
 }
