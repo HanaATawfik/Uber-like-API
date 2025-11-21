@@ -2,6 +2,10 @@ package com.uber_like.ride_sharing.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @Entity
 @Table(name = "rides")
 public class Ride {
@@ -27,7 +31,10 @@ public class Ride {
     private  String customerFare;
     @Column(nullable = false)
     private String status = "PENDING";
-   // private final <Bid> bids = Collections.synchronizedList(new ArrayList<Bid>());
+@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ride_id", referencedColumnName = "rideId")
+    private List<Bid> bids = new ArrayList<>();
+
 
     public Ride() {
     }
@@ -49,10 +56,11 @@ public class Ride {
     public void setCustomerFare(String customerFare) { this.customerFare = customerFare; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-  //  public List<Bid> getBids() { return bids; }
 
-  /*  public void addBid(Bid bid) {
+   public List<Bid> getBids() { return bids; }
+
+    public void addBid(Bid bid) {
         bids.add(bid);
-    }*/
+    }
 
 }
