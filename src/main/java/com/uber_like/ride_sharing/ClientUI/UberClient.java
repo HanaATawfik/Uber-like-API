@@ -2,6 +2,7 @@ package com.uber_like.ride_sharing.ClientUI;
 
 import com.uber_like.ride_sharing.ClientUI.menu.MenuHandler;
 import com.uber_like.ride_sharing.ClientUI.menu.service.ApiService;
+import jdk.internal.io.JdkConsoleImpl;
 
 import java.io.*;
 import java.util.Scanner;
@@ -62,7 +63,47 @@ public class UberClient {
         }
     }
 
+    private static int getValidMenuChoice(Menu menu, int min, int max) {
+        while (true) {
+            try {
+                int choice = menu.display();
+                if (choice >= min && choice <= max) {
+                    return choice;
+                }
+                System.out.println("Error: Please enter a number between " + min + " and " + max);
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Please enter a valid number");
+                JdkConsoleImpl userInput = null;
+                userInput.readLine(); // Clear buffer
+            } catch (IOException e) {
+                System.out.println("Error reading input: " + e.getMessage());
+            }
+        }
+    }
 
+    private static String getNonEmptyInput(String prompt) throws IOException {
+        while (true) {
+            System.out.print(prompt);
+            JdkConsoleImpl userInput=null;
+            String input = userInput.readLine();
+            if (input != null && !input.trim().isEmpty()) {
+                return input.trim();
+            }
+            System.out.println("Error: Input cannot be empty. Please try again.");
+        }
+    }
+
+    private static String getValidNumber(String prompt) throws IOException {
+        while (true) {
+            String input = getNonEmptyInput(prompt);
+            try {
+                Double.parseDouble(input);
+                return input;
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Please enter a valid number.");
+            }
+        }
+    }
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
