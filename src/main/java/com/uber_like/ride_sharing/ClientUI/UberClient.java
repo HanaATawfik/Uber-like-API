@@ -2,7 +2,6 @@ package com.uber_like.ride_sharing.ClientUI;
 
 import com.uber_like.ride_sharing.ClientUI.menu.MenuHandler;
 import com.uber_like.ride_sharing.ClientUI.menu.service.ApiService;
-import jdk.internal.io.JdkConsoleImpl;
 
 import java.io.*;
 import java.util.Scanner;
@@ -16,6 +15,7 @@ public class UberClient {
     private static volatile boolean running = true;
     private static ApiService apiService;
     private static MenuHandler menuHandler;
+    private static BufferedReader userInput;
 
     static class Menu {
         private final String title;
@@ -26,6 +26,7 @@ public class UberClient {
             this.title = title;
             this.options = options;
             this.input = input;
+
         }
 
         public int display() throws IOException {
@@ -73,18 +74,21 @@ public class UberClient {
                 System.out.println("Error: Please enter a number between " + min + " and " + max);
             } catch (NumberFormatException e) {
                 System.out.println("Error: Please enter a valid number");
-                JdkConsoleImpl userInput = null;
-                userInput.readLine(); // Clear buffer
+                try {
+                    userInput.readLine(); // Clear buffer
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             } catch (IOException e) {
                 System.out.println("Error reading input: " + e.getMessage());
             }
         }
     }
 
+
     private static String getNonEmptyInput(String prompt) throws IOException {
         while (true) {
             System.out.print(prompt);
-            JdkConsoleImpl userInput=null;
             String input = userInput.readLine();
             if (input != null && !input.trim().isEmpty()) {
                 return input.trim();
@@ -105,7 +109,8 @@ public class UberClient {
         }
     }
 
-    public static void main(String[] args) {
+
+ /*   public static void main(String[] args) {
         scanner = new Scanner(System.in);
         apiService = new ApiService("http://localhost:8080/api");
        menuHandler = new MenuHandler();
@@ -161,5 +166,5 @@ public class UberClient {
             e.printStackTrace();
         }
     }
-
+*/
 }
